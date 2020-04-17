@@ -10,24 +10,25 @@ import cv2 as cv
 import os
 import random as r 
 from PIL import Image
+from numpy import asarray
 
 path = r'INSERT PATH'
-     
-for count, filename in enumerate(os.listdir(path)): 
-    dst = str(r.randint(1,100000) * r.randint(1,100000) * r.randint(1,100000)) + ".png"
-    src = path + '/' + filename 
-    dst = path + '/' + dst 
-          
-        # rename() function will 
-        # rename all the files 
-    os.rename(src, dst)
 
-  
+#resisizing images with bicubic interpolation
+for file in os.listdir(path):
+        image = Image.open(path + file)
+        width = 512
+        height = 512
+        img = image.resize((height, width), Image.BICUBIC)
+        img.save(path + file)
+
+#apply Laplace Operator  
 for count, filename in enumerate(os.listdir(path)):
     image = cv.imread(path + '/' + filename + '.png')
     LP = cv.Laplacian(image,cv.CV_64F)
     cv.imwrite(path + '/' + filename + '.png', LP)
-    
+
+#affine transformations    
 for x, filename in enumerate(os.listdir('INSERT PATH')):
     image = Image.open('INSERT PATH' + filename)
     r0 = image.rotate(0)
