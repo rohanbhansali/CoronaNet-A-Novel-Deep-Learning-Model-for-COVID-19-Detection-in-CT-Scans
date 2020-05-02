@@ -110,4 +110,6 @@ training_set = train_datagen.flow_from_directory('TRAIN_PATH', target_size = (51
 
 test_set = test_datagen.flow_from_directory('TEST_PATH', target_size = (512, 512), batch_size = batch_size, class_mode = 'binary')
 
+checkpoint = ModelCheckpoint("best_model.hdf5", monitor='accuracy', verbose=1, save_best_only=True, mode='max', period=1)
+
 classifier.fit_generator(training_set, samples_per_epoch = samples_per_epoch, nb_epoch = nb_epoch, validation_data = test_set, nb_val_samples = nb_val_samples)
